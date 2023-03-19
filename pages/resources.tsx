@@ -5,6 +5,6 @@ import { GetStaticProps, PreviewData } from 'next'
 const Page = (props: PageProps) => <PageWrapper {...props} />
 
 export const getStaticProps: GetStaticProps<PageProps, Query, PreviewData> =
-  getStaticPageProps('index')
+  getStaticPageProps('resources')
 
 export default Page

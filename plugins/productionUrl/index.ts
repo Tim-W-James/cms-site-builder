@@ -4,7 +4,7 @@
  * @TODO the code in this plugin is a candidate for moving into `@sanity/preview-kit/studio`
  */
 
-import { definePlugin, type Slug } from 'sanity'
+import { definePlugin } from 'sanity'
 
 import { getSecret } from './utils'
 
@@ -35,10 +35,6 @@ export const productionUrl = definePlugin<{
         const secret = await getSecret(client, previewSecretId, true)
         if (secret) {
           url.searchParams.set('secret', secret)
-        }
-        const slug = (document.slug as Slug)?.current
-        if (slug) {
-          url.searchParams.set('slug', slug)
         }
 
         if (types.has(document._type)) {

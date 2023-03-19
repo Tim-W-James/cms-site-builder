@@ -4,14 +4,14 @@
 
 import { visionTool } from '@sanity/vision'
 import { apiVersion, dataset, previewSecretId, projectId } from 'lib/sanity.api'
-import { previewDocumentNode } from 'plugins/previewPane'
+import { previewStructurePlugin } from 'plugins/previewStructure'
 import { productionUrl } from 'plugins/productionUrl'
-import { settingsPlugin, settingsStructure } from 'plugins/settings'
+import { singletonPlugin } from 'plugins/singeton'
 import { defineConfig } from 'sanity'
 import { deskTool } from 'sanity/desk'
 import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash'
-import authorType from 'schemas/author'
-import postType from 'schemas/post'
+import homePageType from 'schemas/pages/home'
+import resourcesPageType from 'schemas/pages/resources'
 import settingsType from 'schemas/settings'
 
 const title =
@@ -24,21 +24,26 @@ export default defineConfig({
   title,
   schema: {
     // If you want more content types, you can add them to this array
-    types: [authorType, postType, settingsType],
+    types: [settingsType, homePageType, resourcesPageType],
   },
   plugins: [
     deskTool({
-      structure: settingsStructure(settingsType),
-      // `defaultDocumentNode` is responsible for adding a “Preview” tab to the document pane
-      defaultDocumentNode: previewDocumentNode({ apiVersion, previewSecretId }),
+      structure: previewStructurePlugin(
+        settingsType,
+        [homePageType, resourcesPageType],
+        {
+          apiVersion,
+          previewSecretId,
+        }
+      ),
     }),
     // Configures the global "new document" button, and document actions, to suit the Settings document singleton
-    settingsPlugin({ type: settingsType.name }),
+    singletonPlugin({ type: settingsType.name }),
     // Add the "Open preview" action
     productionUrl({
       apiVersion,
       previewSecretId,
-      types: [postType.name, settingsType.name],
+      types: [homePageType.name, resourcesPageType.name],
     }),
     // Add an image asset source for Unsplash
     unsplashImageAsset(),

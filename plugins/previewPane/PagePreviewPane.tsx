@@ -2,8 +2,9 @@
  * This component is responsible for rendering a preview of a post inside the Studio.
  */
 import { Card, Flex, Spinner, Text } from '@sanity/ui'
+import { pageNames } from 'data/pageNames'
 import { getSecret } from 'plugins/productionUrl/utils'
-import React, {
+import {
   memo,
   startTransition,
   Suspense,
@@ -14,7 +15,7 @@ import { useClient } from 'sanity'
 import { suspend } from 'suspend-react'
 
 type Props = {
-  slug?: string
+  path?: string
   previewSecretId: `${string}.${string}`
   apiVersion: string
 }
@@ -23,21 +24,21 @@ export default function PostPreviewPane(props: Props) {
   const { previewSecretId, apiVersion } = props
   // Whenever the slug changes, wait 3 seconds for GROQ to reach eventual consistency.
   // This helps to prevent displaying "Invalid slug" or returning 404 errors while editing the slug manually.
-  const [slug, setSlug] = useState(props.slug)
+  const [path, setPath] = useState(props.path)
   useEffect(() => {
     const timeout = setTimeout(
-      () => startTransition(() => setSlug(props.slug)),
+      () => startTransition(() => setPath(props.path)),
       3000
     )
     return () => clearTimeout(timeout)
-  }, [props.slug])
+  }, [props.path])
 
   // if the document has no slug for the preview iframe
-  if (!slug) {
+  if (path && !(pageNames as ReadonlyArray<string>).includes(path)) {
     return (
       <Card tone="primary" margin={5} padding={6}>
         <Text align="center">
-          Please add a slug to the post to see the preview!
+          Couldn&apos;t find the page {path} to preview.
         </Text>
       </Card>
     )
@@ -52,7 +53,7 @@ export default function PostPreviewPane(props: Props) {
         <Iframe
           apiVersion={apiVersion}
           previewSecretId={previewSecretId}
-          slug={slug}
+          path={path}
         />
       </Suspense>
       <Flex
@@ -82,9 +83,9 @@ export default function PostPreviewPane(props: Props) {
 // Used as a cache key that doesn't risk collision or getting affected by other components that might be using `suspend-react`
 const fetchSecret = Symbol('preview.secret')
 const Iframe = memo(function Iframe(
-  props: Omit<Props, 'slug'> & Required<Pick<Props, 'slug'>>
+  props: Omit<Props, 'path'> & Required<Pick<Props, 'path'>>
 ) {
-  const { apiVersion, previewSecretId, slug } = props
+  const { apiVersion, previewSecretId, path } = props
   const client = useClient({ apiVersion })
 
   const secret = suspend(
@@ -95,7 +96,7 @@ const Iframe = memo(function Iframe(
   )
 
   const url = new URL('/api/preview', location.origin)
-  url.searchParams.set('slug', slug)
+  url.searchParams.set('path', path)
   if (secret) {
     url.searchParams.set('secret', secret)
   }
