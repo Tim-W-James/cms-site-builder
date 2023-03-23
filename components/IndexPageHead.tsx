@@ -1,6 +1,4 @@
-import { toPlainText } from '@portabletext/react'
 import Meta from 'components/Meta'
-import * as demo from 'lib/demo.data'
 import { Settings } from 'lib/sanity.queries'
 import Head from 'next/head'
 
@@ -10,11 +8,11 @@ export interface IndexPageHeadProps {
 
 export default function IndexPageHead({ settings }: IndexPageHeadProps) {
   const {
-    title = demo.title,
-    description = demo.description,
+    title = "Example title",
+    description = "Example description",
     ogImage = {},
   } = settings
-  const ogImageTitle = ogImage?.title || demo.ogImageTitle
+  const ogImageTitle = ogImage?.title || "Example title"
 
   return (
     <Head>
@@ -23,7 +21,7 @@ export default function IndexPageHead({ settings }: IndexPageHeadProps) {
       <meta
         key="description"
         name="description"
-        content={toPlainText(description)}
+        content={"Example description"}
       />
       <meta
         property="og:image"

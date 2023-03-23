@@ -57,7 +57,7 @@ export default defineType({
                     name: 'url',
                     type: 'url',
                     title: 'URL',
-                    validation: (rule) => rule.required(),
+                    validation: (rule) => rule.required().uri(),
                   },
                   {
                     name: 'hoverText',
@@ -68,7 +68,7 @@ export default defineType({
                     name: 'shouldUseNewTab',
                     type: 'boolean',
                     title: 'Open link in new tab.',
-                    initialValue: true
+                    initialValue: true,
                   },
                 ],
               },
@@ -120,8 +120,15 @@ export default defineType({
               title: 'Image Size',
               description:
                 'Pixel width of the image, leave empty for auto scaling.',
+              validation: (rule) => rule.max(5000).min(10),
             },
-            // TODO no overflow
+            {
+              name: 'wrapText',
+              type: 'boolean',
+              title: 'Wrap Text',
+              description: 'Wrap text around the image.',
+              initialValue: false,
+            },
           ],
         },
         {
@@ -146,7 +153,7 @@ export default defineType({
               type: 'boolean',
               title: 'Render PDF',
               description: 'If the file is a PDF, display it on the page.',
-              initialValue: true
+              initialValue: true,
             },
             {
               name: 'pdfHeight',
@@ -155,6 +162,7 @@ export default defineType({
               description:
                 'Height for the PDF display, leave empty for auto scaling.',
               hidden: ({ parent }) => !parent?.shouldRenderPdf,
+              validation: (rule) => rule.max(5000).min(50),
             },
           ],
         },
