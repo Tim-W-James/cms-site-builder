@@ -1,12 +1,12 @@
 import { apiVersion, dataset, projectId, useCdn } from 'lib/sanity.api'
 import {
   indexQuery,
-  PageData,
+  Page,
+  PageMeta,
   pagePathQuery,
   pageQuery,
   type Settings,
-  settingsQuery,
-} from 'lib/sanity.queries'
+  settingsQuery} from 'lib/sanity.queries'
 import { createClient } from 'next-sanity'
 
 /**
@@ -23,21 +23,21 @@ export async function getSettings(): Promise<Settings> {
   return {}
 }
 
-export async function getPage(pageName: string): Promise<PageData> {
+export async function getPage(pageName: string): Promise<Page> {
   if (client) {
     return (await client.fetch(pageQuery(pageName))) || {}
   }
   return {}
 }
 
-export async function getIndexPage(): Promise<PageData> {
+export async function getIndexPage(): Promise<Page> {
   if (client) {
     return (await client.fetch(indexQuery)) || {}
   }
   return {}
 }
 
-export async function getAllPagePaths(): Promise<Pick<PageData, 'path'>[]> {
+export async function getAllPagePaths(): Promise<Pick<PageMeta, 'path'>[]> {
   if (client) {
     const paths = (await client.fetch<string[]>(pagePathQuery)) || []
     return paths.map((path) => ({ path }))

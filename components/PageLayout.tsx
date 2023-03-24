@@ -2,14 +2,14 @@ import { PortableText } from '@portabletext/react'
 import Container from 'components/Container'
 import IndexPageHead from 'components/IndexPageHead'
 import Layout from 'components/Layout'
-import type { PageData, Settings } from 'lib/sanity.queries'
+import type { Page, Settings } from 'lib/sanity.queries'
 
 import PortableTextRenderer from './portableText/PortableTextRenderer'
 
 export interface IndexPageProps {
   preview?: boolean
   loading?: boolean
-  pageData: PageData
+  page: Page
   settings: Settings
 }
 
@@ -17,7 +17,7 @@ export default function PageLayout(props: IndexPageProps) {
   const {
     preview,
     loading,
-    pageData,
+    page: { content },
     settings,
   } = props
 
@@ -27,10 +27,10 @@ export default function PageLayout(props: IndexPageProps) {
 
       <Layout preview={!!preview} loading={loading}>
         <Container>
-          {pageData.header}
-          {pageData.content ? (
+          {content?.header ?? ''}
+          {content?.body ? (
             <PortableText
-              value={pageData.content}
+              value={content?.body}
               components={PortableTextRenderer}
             />
           ) : null}

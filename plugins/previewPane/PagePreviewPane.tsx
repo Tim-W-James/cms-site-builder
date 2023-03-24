@@ -3,14 +3,9 @@
  */
 import { Card, Flex, Spinner, Text } from '@sanity/ui'
 import { pageNames } from 'data/pageNames'
-import {
-  startTransition,
-  Suspense,
-  useEffect,
-  useState
-} from 'react'
+import { startTransition, Suspense, useEffect, useState } from 'react'
 
-import Iframe, { Props } from './fetchSecret'
+import Iframe, { Props } from './Iframe'
 
 export default function PostPreviewPane(props: Props) {
   const { previewSecretId, apiVersion } = props
@@ -26,7 +21,10 @@ export default function PostPreviewPane(props: Props) {
   }, [props.path])
 
   // if the document has no slug for the preview iframe
-  if (path && !(pageNames as ReadonlyArray<string>).includes(path)) {
+  if (
+    (path && !(pageNames as ReadonlyArray<string>).includes(path)) ||
+    path === undefined
+  ) {
     return (
       <Card tone="primary" margin={5} padding={6}>
         <Text align="center">
@@ -45,7 +43,7 @@ export default function PostPreviewPane(props: Props) {
         <Iframe
           apiVersion={apiVersion}
           previewSecretId={previewSecretId}
-          path={path ?? ""}
+          path={path ?? ''}
         />
       </Suspense>
       <Flex
@@ -71,5 +69,3 @@ export default function PostPreviewPane(props: Props) {
     </Card>
   )
 }
-
-

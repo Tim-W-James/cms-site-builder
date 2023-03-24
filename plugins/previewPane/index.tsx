@@ -15,7 +15,7 @@ export const previewDocumentNode = ({
       S.view
         .component(({ document }) => (
           <PagePreviewPane
-            path={document.displayed.path?.current || ''}
+            path={document?.displayed?.metadata?.path?.current || undefined}
             apiVersion={apiVersion}
             previewSecretId={previewSecretId}
           />

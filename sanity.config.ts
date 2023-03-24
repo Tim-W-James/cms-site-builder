@@ -11,9 +11,11 @@ import { singletonPlugin } from 'plugins/singeton'
 import { defineConfig } from 'sanity'
 import { deskTool } from 'sanity/desk'
 import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash'
+import navType from 'schemas/nav'
+import pageType from 'schemas/page'
+import pageMetaType from 'schemas/pageMeta'
 import homePageType from 'schemas/pages/home'
-import navType from 'schemas/pages/nav'
-import pageType from 'schemas/pages/page'
+import pagesType from 'schemas/pages/pages'
 import settingsType from 'schemas/settings'
 
 const title =
@@ -21,12 +23,19 @@ const title =
 
 export default defineConfig({
   basePath: '/studio',
-  projectId: projectId ?? "",
-  dataset: dataset ?? "",
+  projectId: projectId ?? '',
+  dataset: dataset ?? '',
   title,
   schema: {
     // If you want more content types, you can add them to this array
-    types: [settingsType, homePageType, navType, pageType],
+    types: [
+      settingsType,
+      homePageType,
+      navType,
+      pagesType,
+      pageType,
+      pageMetaType,
+    ],
   },
   plugins: [
     deskTool({
@@ -49,7 +58,7 @@ export default defineConfig({
     productionUrl({
       apiVersion,
       previewSecretId,
-      types: [homePageType.name, pageType.name],
+      types: [homePageType.name, pagesType.name],
     }),
     // Add an image asset source for Unsplash
     unsplashImageAsset(),

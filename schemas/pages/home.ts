@@ -8,11 +8,13 @@ export default defineType({
   title: 'Home Page',
   icon: HomeIcon,
   type: 'document',
-  preview: { select: { title: 'page.title', subtitle: 'page.description' } },
+  preview: {
+    prepare: () => ({ title: 'Home Page' }),
+  },
   fields: [
     {
-      name: 'page',
-      title: 'Page',
+      name: 'content',
+      title: 'Content',
       type: 'page',
     },
   ],

@@ -1,23 +1,20 @@
-import { CogIcon } from '@sanity/icons'
+import {
+  DocumentsIcon
+} from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
 
-import OpenGraphInput from './OpenGraphInput'
-
 export default defineType({
-  name: 'settings',
-  title: 'Settings',
-  type: 'document',
-  icon: CogIcon,
-  preview: {
-    prepare: () => ({ title: 'Settings' }),
-  },
+  name: 'pageMeta',
+  title: 'Page Metadata',
+  icon: DocumentsIcon,
+  type: 'object',
+  preview: { select: { title: 'title', subtitle: 'description' } },
   fields: [
     defineField({
       name: 'title',
+      title: 'Page Title',
       description: 'Appears in the browser tab and search results.',
-      title: 'Title',
       type: 'string',
-      initialValue: "Example title",
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -51,25 +48,20 @@ export default defineType({
           },
         }),
       ],
-      validation: (rule) => rule.max(155).required(),
+      validation: (rule) => rule.max(155),
     }),
     defineField({
-      name: 'ogImage',
-      title: 'Open Graph Image',
-      description:
-        'Used for social media previews when linking to the index page.',
-      type: 'object',
-      components: {
-        input: OpenGraphInput as any,
+      name: 'path',
+      title: 'Path',
+      description: `Used for the URL path: https://example.com/your-path`,
+      type: 'slug',
+      options: {
+        source: 'title',
+        isUnique: (value, context) => context.defaultIsUnique(value, context),
+        slugify: (input) =>
+          input.toLowerCase().replace(/\s+/g, '-').slice(0, 96),
       },
-      fields: [
-        defineField({
-          name: 'title',
-          title: 'Title',
-          type: 'string',
-          initialValue: "Example title",
-        }),
-      ],
+      validation: (rule) => rule.required(),
     }),
   ],
 })

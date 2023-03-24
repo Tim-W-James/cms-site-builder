@@ -9,57 +9,20 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'page',
-  title: 'Pages',
+  title: 'Page',
   icon: DocumentsIcon,
-  type: 'document',
-  preview: { select: { title: 'title', subtitle: 'description' } },
-  fieldsets: [
-    { name: 'metadata', title: 'Page Metadata' },
-    { name: 'content', title: 'Page Content' },
-  ],
+  type: 'object',
+  preview: { select: { title: 'header' } },
   fields: [
-    defineField({
-      name: 'title',
-      title: 'Page Title',
-      description: 'Appears in the browser tab and search results.',
-      type: 'string',
-      fieldset: 'metadata',
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: 'description',
-      title: 'Page Description',
-      description: 'Appears in search results.',
-      type: 'string',
-      fieldset: 'metadata',
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: 'path',
-      title: 'Path',
-      description: `Used for the URL path: https://example.com/your-path`,
-      type: 'slug',
-      fieldset: 'metadata',
-      options: {
-        source: 'title',
-        isUnique: (value, context) => context.defaultIsUnique(value, context),
-        slugify: (input) =>
-          input.toLowerCase().replace(/\s+/g, '-').slice(0, 96),
-      },
-      validation: (rule) => rule.required(),
-    }),
     defineField({
       name: 'header',
       title: 'Header',
-      fieldset: 'content',
       description: 'Appears at the top of the page.',
       type: 'string',
-      validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'content',
+      name: 'body',
       title: 'Body',
-      fieldset: 'content',
       description:
         'Rich text content, including sub headings, links, images, and PDFs.',
       type: 'array',

@@ -46,9 +46,9 @@ export const previewStructurePlugin = (
               .views([
                 S.view.form(),
                 S.view
-                  .component((document) => (
+                  .component(() => (
                     <PagePreviewPane
-                      path={document?.displayed?.path?.current || ''}
+                      path={''}
                       apiVersion={apiVersion}
                       previewSecretId={previewSecretId}
                     />
