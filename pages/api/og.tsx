@@ -7,7 +7,6 @@ import { createClient } from 'next-sanity'
 export const config: PageConfig = { runtime: 'experimental-edge' }
 
 import { height, OpenGraphImage, width } from 'components/OpenGraphImage'
-import * as demo from 'lib/demo.data'
 import { Settings, settingsQuery } from 'lib/sanity.queries'
 
 export default async function og(req: NextRequest, res: NextResponse) {
@@ -25,11 +24,11 @@ export default async function og(req: NextRequest, res: NextResponse) {
       useCdn: false,
     })
     const settings = (await client.fetch<Settings>(settingsQuery)) || {}
-    title = settings?.ogImage?.title
+    title = settings?.ogImage?.title ?? ""
   }
 
   return new ImageResponse(
-    <OpenGraphImage title={title || demo.ogImageTitle} />,
+    <OpenGraphImage title={title ?? ""} />,
     {
       width,
       height,

@@ -9,8 +9,8 @@ import { type StructureResolver } from 'sanity/desk'
 import PagePreviewPane from './previewPane/PagePreviewPane'
 
 export const previewStructurePlugin = (
-  settingsTypeDef: DocumentDefinition,
-  pageTypeDefs: DocumentDefinition[],
+  singletonTypeDefs: DocumentDefinition[],
+  singletonPreviewTypeDefs: DocumentDefinition[],
   {
     apiVersion,
     previewSecretId,
@@ -20,23 +20,23 @@ export const previewStructurePlugin = (
   }
 ): StructureResolver => {
   return (S) => {
-    // The `Settings` root list item
-    const settingsListItem = // A singleton not using `documentListItem`, eg no built-in preview
-      S.listItem()
-        .title(settingsTypeDef.title)
-        .icon(settingsTypeDef.icon)
-        .child(
-          S.editor()
-            .id(settingsTypeDef.name)
-            .schemaType(settingsTypeDef.name)
-            .documentId(settingsTypeDef.name)
-        )
-
-    // The `Page` root list items
-    const pageListItems = // A singleton, but has a built-in preview of the page
-      pageTypeDefs.map((typeDef) =>
+    const singletonsListItems = // A singleton not using `documentListItem`, eg no built-in preview
+      singletonTypeDefs.map((typeDef) =>
         S.listItem()
-          .title(typeDef.title)
+          .title(typeDef.title || typeDef.name)
+          .icon(typeDef.icon)
+          .child(
+            S.editor()
+              .id(typeDef.name)
+              .schemaType(typeDef.name)
+              .documentId(typeDef.name)
+          )
+      )
+
+    const singletonPreviewListItems = // A singleton, but has a built-in preview of the page
+      singletonPreviewTypeDefs.map((typeDef) =>
+        S.listItem()
+          .title(typeDef.title || typeDef.name)
           .icon(typeDef.icon)
           .child(
             S.editor()
@@ -46,9 +46,9 @@ export const previewStructurePlugin = (
               .views([
                 S.view.form(),
                 S.view
-                  .component(() => (
+                  .component((document) => (
                     <PagePreviewPane
-                      path={typeDef.name === 'index' ? '' : `${typeDef.name}`}
+                      path={document?.displayed?.path?.current || ''}
                       apiVersion={apiVersion}
                       previewSecretId={previewSecretId}
                     />
@@ -58,8 +58,22 @@ export const previewStructurePlugin = (
           )
       )
 
+    const customListItemNames = singletonTypeDefs
+      .map((item) => item.name)
+      .concat(singletonPreviewTypeDefs.map((item) => item.name))
+
+    const defaultListItems = S.documentTypeListItems().filter((listItem) => {
+      const listItemId = listItem.getId()
+      return listItemId && !customListItemNames.includes(listItemId)
+    })
+
     return S.list()
       .title('Content')
-      .items([settingsListItem, S.divider(), ...pageListItems])
+      .items([
+        ...singletonsListItems,
+        ...singletonPreviewListItems,
+        S.divider(),
+        ...defaultListItems,
+      ])
   }
 }

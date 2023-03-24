@@ -4,6 +4,7 @@
 
 import { visionTool } from '@sanity/vision'
 import { apiVersion, dataset, previewSecretId, projectId } from 'lib/sanity.api'
+import { previewDocumentNode } from 'plugins/previewPane'
 import { previewStructurePlugin } from 'plugins/previewStructure'
 import { productionUrl } from 'plugins/productionUrl'
 import { singletonPlugin } from 'plugins/singeton'
@@ -11,7 +12,8 @@ import { defineConfig } from 'sanity'
 import { deskTool } from 'sanity/desk'
 import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash'
 import homePageType from 'schemas/pages/home'
-import resourcesPageType from 'schemas/pages/resources'
+import navType from 'schemas/pages/nav'
+import pageType from 'schemas/pages/page'
 import settingsType from 'schemas/settings'
 
 const title =
@@ -19,31 +21,35 @@ const title =
 
 export default defineConfig({
   basePath: '/studio',
-  projectId,
-  dataset,
+  projectId: projectId ?? "",
+  dataset: dataset ?? "",
   title,
   schema: {
     // If you want more content types, you can add them to this array
-    types: [settingsType, homePageType, resourcesPageType],
+    types: [settingsType, homePageType, navType, pageType],
   },
   plugins: [
     deskTool({
       structure: previewStructurePlugin(
-        settingsType,
-        [homePageType, resourcesPageType],
+        [settingsType, navType],
+        [homePageType],
         {
           apiVersion,
           previewSecretId,
         }
       ),
+      defaultDocumentNode: previewDocumentNode({ apiVersion, previewSecretId }),
     }),
-    // Configures the global "new document" button, and document actions, to suit the Settings document singleton
-    singletonPlugin({ type: settingsType.name }),
+    // Configures the global "new document" button, and document actions, to
+    // suit a singleton
+    singletonPlugin({
+      type: [settingsType.name, homePageType.name, navType.name],
+    }),
     // Add the "Open preview" action
     productionUrl({
       apiVersion,
       previewSecretId,
-      types: [homePageType.name, resourcesPageType.name],
+      types: [homePageType.name, pageType.name],
     }),
     // Add an image asset source for Unsplash
     unsplashImageAsset(),

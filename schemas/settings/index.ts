@@ -26,7 +26,6 @@ export default defineType({
         'Used both for the <meta> description tag for SEO, and the blog subheader.',
       title: 'Description',
       type: 'array',
-      initialValue: "Example description",
       of: [
         defineArrayMember({
           type: 'block',

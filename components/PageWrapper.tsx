@@ -6,8 +6,7 @@ import { lazy } from 'react'
 const PreviewPage = lazy(() => import('components/PreviewPage'))
 
 const Page = (props: PageProps) => {
-  const { pageData, pageName, settings, preview, token } = props
-
+  const { pageData, path, settings, preview, token } = props
   if (preview) {
     return (
       <PreviewSuspense
@@ -15,7 +14,7 @@ const Page = (props: PageProps) => {
           <PageLayout loading preview pageData={pageData} settings={settings} />
         }
       >
-        <PreviewPage pageName={pageName} token={token} />
+        <PreviewPage path={path} token={token} />
       </PreviewSuspense>
     )
   }

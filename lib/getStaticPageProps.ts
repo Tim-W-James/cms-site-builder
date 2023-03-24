@@ -1,10 +1,9 @@
-import { PageName } from 'data/pageNames'
-import { getPage, getSettings } from 'lib/sanity.client'
+import { getIndexPage, getPage, getSettings } from 'lib/sanity.client'
 import { PageData, Settings } from 'lib/sanity.queries'
 import { GetStaticProps } from 'next'
 
 export interface PageProps {
-  pageName: PageName
+  path?: string
   pageData: PageData
   settings: Settings
   preview: boolean
@@ -20,18 +19,19 @@ export interface PreviewData {
 }
 
 export const getStaticPageProps =
-  (pageName: PageName): GetStaticProps<PageProps, Query, PreviewData> =>
+  (path?: string): GetStaticProps<PageProps, Query, PreviewData> =>
   async (ctx) => {
-    const { preview = false, previewData = {} } = ctx
-
+    const { preview = false, previewData = {}, params = {} } = ctx
+    const parsedPath = path || params?.path || ""
+    
     const [settings, pageData] = await Promise.all([
       getSettings(),
-      getPage(pageName),
+      parsedPath ? getPage(parsedPath) : getIndexPage(),
     ])
 
     return {
       props: {
-        pageName,
+        path: parsedPath ?? '',
         pageData,
         settings,
         preview,

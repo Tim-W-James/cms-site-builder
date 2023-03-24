@@ -1,7 +1,7 @@
 import PageLayout from 'components/PageLayout'
-import { PageName } from 'data/pageNames'
 import { usePreview } from 'lib/sanity.preview'
 import {
+  indexQuery,
   type PageData,
   pageQuery,
   type Settings,
@@ -10,12 +10,13 @@ import {
 
 export default function PreviewPage({
   token,
-  pageName,
+  path,
 }: {
   token: null | string
-  pageName: PageName
+  path?: string
 }) {
-  const pageData: PageData = usePreview(token, pageQuery(pageName)) || []
+  const pageData: PageData =
+    usePreview(token, path ? pageQuery(path) : indexQuery) || []
   const settings: Settings = usePreview(token, settingsQuery) || {}
 
   return <PageLayout preview pageData={pageData} settings={settings} />

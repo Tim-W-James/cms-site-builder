@@ -14,7 +14,12 @@ export interface IndexPageProps {
 }
 
 export default function PageLayout(props: IndexPageProps) {
-  const { preview, loading, pageData, settings } = props
+  const {
+    preview,
+    loading,
+    pageData,
+    settings,
+  } = props
 
   return (
     <>
