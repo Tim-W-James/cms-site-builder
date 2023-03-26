@@ -117,6 +117,9 @@
 - Unstyled Bootstrap starter that can be customised to display content from the
   CMS as desired
 
+Find an example of this template being used on a project at
+<https://github.com/Tim-W-James/Journeys-Continue>.
+
 <!-- ### Goals
 
 - Stuff to do -->
@@ -129,6 +132,7 @@ Future plans:
   - Header with social links
   - Footers
   - Customise the base theme from within the CMS and create a dark theme
+  - Icons
 - Better type safety for the CMS schemas
 - Additional runtime type checking on the frontend for the CMS data. Currently,
   the rich text content (using portable text) has runtime type checking, but

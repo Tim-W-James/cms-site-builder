@@ -50,7 +50,11 @@ const Navigation = ({ routes }: { routes: Routes }) => {
               ))}
             </NavDropdown>
           )
-        ) : null
+        ) : (
+          <Nav.Link as={Link} href="/" key={index}>
+            {route.title ?? "Untitled"}
+          </Nav.Link>
+        )
       )}
     </Nav>
   );

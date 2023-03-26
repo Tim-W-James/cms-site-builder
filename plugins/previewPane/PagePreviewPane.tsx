@@ -2,7 +2,6 @@
  * This component is responsible for rendering a preview of a post inside the Studio.
  */
 import { Card, Flex, Spinner, Text } from "@sanity/ui";
-import { pageNames } from "data/pageNames";
 import { startTransition, Suspense, useEffect, useState } from "react";
 
 import Iframe, { Props } from "./Iframe";
@@ -21,10 +20,7 @@ const PagePreviewPane = (props: Props) => {
   }, [props.path]);
 
   // if the document has no slug for the preview iframe
-  if (
-    (path && !(pageNames as ReadonlyArray<string>).includes(path)) ||
-    path === undefined
-  ) {
+  if (path === undefined) {
     return (
       <Card margin={5} padding={6} tone="primary">
         <Text align="center">
