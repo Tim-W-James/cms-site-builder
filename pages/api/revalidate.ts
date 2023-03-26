@@ -28,7 +28,7 @@ import { parseBody } from "next-sanity/webhook";
 
 export { config } from "next-sanity/webhook";
 
-type StaleRoute = "/" | `/posts/${string}`;
+type StaleRoute = "/" | `/${string}`;
 
 const _queryAllRoutes = (client: SanityClient): Promise<string[]> =>
   client.fetch(pagePathQuery);

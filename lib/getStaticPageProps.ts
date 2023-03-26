@@ -33,6 +33,12 @@ export const getStaticPageProps =
       parsedPath ? getPage(parsedPath) : getIndexPage(),
       getAllRoutes(),
     ]);
+
+    // If the page is not found, return 404
+    if (!page) {
+      return { notFound: true };
+    }
+
     return {
       props: {
         path: parsedPath,

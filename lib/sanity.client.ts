@@ -27,12 +27,12 @@ export const getSettings = async (): Promise<Settings> => {
   return {};
 };
 
-export const getPage = async (pageName: string): Promise<Page> => {
+export const getPage = async (pageName: string): Promise<Page | undefined> => {
   if (client) {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    return (await client.fetch(pageQuery(pageName))) || {};
+    return (await client.fetch(pageQuery(pageName))) || undefined;
   }
-  return {};
+  return undefined;
 };
 
 export const getIndexPage = async (): Promise<Page> => {

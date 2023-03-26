@@ -11,7 +11,7 @@ const Navigation = ({ routes }: { routes: Routes }) => {
     <Nav className={clsx("pt-1 px-1")} variant="tabs">
       <Nav.Item>
         <Nav.Link
-          active={router.asPath === "/" || router.asPath === ""}
+          active={router.asPath === "/" || router.pathname === "/"}
           as={Link}
           href="/"
         >
