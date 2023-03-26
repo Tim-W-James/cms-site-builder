@@ -19,7 +19,7 @@ export const getStaticPaths = async () => {
   return {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     paths: paths.map(({ path }) => `/${path ?? ""}`) || [],
-    fallback: "blocking",
+    fallback: false,
   };
 };
 

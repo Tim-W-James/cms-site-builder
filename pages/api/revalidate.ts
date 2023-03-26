@@ -5,17 +5,17 @@
  * https://www.sanity.io/docs/webhooks
  *
  * 1. Go to the API section of your Sanity project on sanity.io/manage or run `npx sanity hook create`
- * 2. Click "Create webhook"
+ * 2. "API" -> "Webhooks" -> "GROQ-powered Webhooks" -> Click "Create webhook"
  * 3. Set the URL to https://YOUR_NEXTJS_SITE_URL/api/revalidate
  * 4. Trigger on: "Create", "Update", and "Delete"
- * 5. Filter: _type == "post" || _type == "author" || _type == "settings"
+ * 5. Add an optional filter
  * 6. Projection: Leave empty
  * 7. HTTP method: POST
  * 8. API version: v2021-03-25
  * 9. Include drafts: No
  * 10. HTTP Headers: Leave empty
  * 11. Secret: Set to the same value as SANITY_REVALIDATE_SECRET (create a random one if you haven't)
- * 12. Save the cofiguration
+ * 12. Save the configuration
  * 13. Add the secret to Vercel: `npx vercel env add SANITY_REVALIDATE_SECRET`
  * 14. Redeploy with `npx vercel --prod` to apply the new environment variable
  */

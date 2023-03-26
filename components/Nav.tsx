@@ -10,7 +10,11 @@ const Navigation = ({ routes }: { routes: Routes }) => {
   return (
     <Nav className={clsx("pt-1 px-1")} variant="tabs">
       <Nav.Item>
-        <Nav.Link active={router.asPath === "/"} as={Link} href="/">
+        <Nav.Link
+          active={router.asPath === "/" || router.asPath === ""}
+          as={Link}
+          href="/"
+        >
           Home
         </Nav.Link>
       </Nav.Item>

@@ -28,10 +28,8 @@ export default defineType({
       description: `Used for the URL path: https://example.com/your-path`,
       type: "slug",
       options: {
-        source: "title",
+        source: "metadata.title",
         isUnique: (value, context) => context.defaultIsUnique(value, context),
-        slugify: (input: string) =>
-          input.toLowerCase().replace(/\s+/gu, "-").slice(0, 96),
       },
       validation: (rule) => rule.required(),
     }),
