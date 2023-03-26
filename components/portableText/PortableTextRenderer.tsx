@@ -1,14 +1,20 @@
-import { PortableTextComponents } from '@portabletext/react'
+import { PortableTextComponents } from "@portabletext/react";
+import clsx from "clsx";
 
-import FileComponent from './../portableText/FileComponent'
-import ImageComponent from './../portableText/ImageComponent'
-import FileLink from './FileLink'
-import UrlLink from './UrlLink'
+import FileComponent from "./../portableText/FileComponent";
+import ImageComponent from "./../portableText/ImageComponent";
+import FileLink from "./FileLink";
+import UrlLink from "./UrlLink";
 
 const PortableTextRenderer: PortableTextComponents = {
   types: {
     embeddedImage: ImageComponent,
     embeddedFile: FileComponent,
+  },
+  block: {
+    blockquote: ({ children }) => (
+      <blockquote className={clsx("blockquote")}>{children}</blockquote>
+    ),
   },
   marks: {
     em: ({ children }) => <em>{children}</em>,
@@ -17,7 +23,6 @@ const PortableTextRenderer: PortableTextComponents = {
     code: ({ children }) => <code>{children}</code>,
     urlLink: UrlLink,
     fileLink: FileLink,
-    
   },
   list: {
     bullet: ({ children }) => <ul>{children}</ul>,
@@ -25,12 +30,8 @@ const PortableTextRenderer: PortableTextComponents = {
   },
 
   listItem: {
-    bullet: ({ children }) => (
-      <li>{children}</li>
-    ),
-    number: ({ children }) => (
-      <li>{children}</li>
-    ),
+    bullet: ({ children }) => <li>{children}</li>,
+    number: ({ children }) => <li>{children}</li>,
   },
-}
-export default PortableTextRenderer
+};
+export default PortableTextRenderer;

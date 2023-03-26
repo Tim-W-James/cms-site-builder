@@ -1,41 +1,50 @@
-import { PortableText } from '@portabletext/react'
-import Container from 'components/Container'
-import IndexPageHead from 'components/IndexPageHead'
-import Layout from 'components/Layout'
-import type { Page, Settings } from 'lib/sanity.queries'
+import { PortableText } from "@portabletext/react";
+import clsx from "clsx";
+import Layout from "components/Layout";
+import PageHead from "components/PageHead";
+import type { Page, Settings } from "lib/sanity.queries";
+import { Container } from "react-bootstrap";
 
-import PortableTextRenderer from './portableText/PortableTextRenderer'
+import Navigation from "./Nav";
+import PortableTextRenderer from "./portableText/PortableTextRenderer";
 
-export interface IndexPageProps {
-  preview?: boolean
-  loading?: boolean
-  page: Page
-  settings: Settings
+export interface PageLayoutProps {
+  preview?: boolean;
+  loading?: boolean;
+  page: Page;
+  routes: any;
+  settings: Settings;
 }
 
-export default function PageLayout(props: IndexPageProps) {
+const PageLayout = (props: PageLayoutProps) => {
   const {
     preview,
     loading,
-    page: { content },
+    page: { content, metadata },
     settings,
-  } = props
+    routes,
+  } = props;
 
   return (
     <>
-      <IndexPageHead settings={settings} />
+      <PageHead pageMeta={metadata} settings={settings} />
 
-      <Layout preview={!!preview} loading={loading}>
+      <Layout loading={loading} preview={Boolean(preview)}>
+        <Navigation routes={routes} />
         <Container>
-          {content?.header ?? ''}
+          <h1 className={clsx("pt-3")}>{content?.header ?? "Heading"}</h1>
+          <hr />
           {content?.body ? (
             <PortableText
-              value={content?.body}
               components={PortableTextRenderer}
+              value={content.body}
             />
-          ) : null}
+          ) : (
+            "Body"
+          )}
         </Container>
       </Layout>
     </>
-  )
-}
+  );
+};
+export default PageLayout;

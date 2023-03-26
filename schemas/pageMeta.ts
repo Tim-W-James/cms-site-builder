@@ -1,67 +1,39 @@
-import {
-  DocumentsIcon
-} from '@sanity/icons'
-import { defineArrayMember, defineField, defineType } from 'sanity'
+import { DocumentsIcon } from "@sanity/icons";
+import { defineField, defineType } from "sanity";
 
 export default defineType({
-  name: 'pageMeta',
-  title: 'Page Metadata',
+  name: "pageMeta",
+  title: "Page Metadata",
   icon: DocumentsIcon,
-  type: 'object',
-  preview: { select: { title: 'title', subtitle: 'description' } },
+  type: "object",
+  preview: { select: { title: "title", subtitle: "description" } },
   fields: [
     defineField({
-      name: 'title',
-      title: 'Page Title',
-      description: 'Appears in the browser tab and search results.',
-      type: 'string',
+      name: "title",
+      title: "Page Title",
+      description: "Appears in the browser tab and search results.",
+      type: "string",
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'description',
-      description:
-        'Appears in search results.',
-      title: 'Description',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'block',
-          options: {},
-          styles: [],
-          lists: [],
-          marks: {
-            decorators: [],
-            annotations: [
-              defineField({
-                type: 'object',
-                name: 'link',
-                fields: [
-                  {
-                    type: 'string',
-                    name: 'href',
-                    title: 'URL',
-                    validation: (rule) => rule.required(),
-                  },
-                ],
-              }),
-            ],
-          },
-        }),
-      ],
+      name: "description",
+      description: "Appears in search results.",
+      title: "Description",
+      type: "string",
       validation: (rule) => rule.max(155),
     }),
     defineField({
-      name: 'path',
-      title: 'Path',
+      name: "path",
+      title: "Path",
       description: `Used for the URL path: https://example.com/your-path`,
-      type: 'slug',
+      type: "slug",
       options: {
-        source: 'title',
+        source: "title",
         isUnique: (value, context) => context.defaultIsUnique(value, context),
-        slugify: (input) =>
-          input.toLowerCase().replace(/\s+/g, '-').slice(0, 96),
+        slugify: (input: string) =>
+          input.toLowerCase().replace(/\s+/gu, "-").slice(0, 96),
       },
       validation: (rule) => rule.required(),
     }),
   ],
-})
+});

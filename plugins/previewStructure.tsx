@@ -3,23 +3,25 @@
  * and each page singleton
  */
 
-import { type DocumentDefinition } from 'sanity'
-import { type StructureResolver } from 'sanity/desk'
+import { type DocumentDefinition } from "sanity";
+import { type StructureResolver } from "sanity/desk";
 
-import PagePreviewPane from './previewPane/PagePreviewPane'
+import PagePreviewPane from "./previewPane/PagePreviewPane";
 
-export const previewStructurePlugin = (
-  singletonTypeDefs: DocumentDefinition[],
-  singletonPreviewTypeDefs: DocumentDefinition[],
-  {
-    apiVersion,
-    previewSecretId,
-  }: {
-    apiVersion: string
-    previewSecretId: `${string}.${string}`
-  }
-): StructureResolver => {
-  return (S) => {
+export const previewStructurePlugin =
+  (
+    singletonTypeDefs: DocumentDefinition[],
+    singletonPreviewTypeDefs: DocumentDefinition[],
+    {
+      apiVersion,
+      previewSecretId,
+    }: {
+      apiVersion: string;
+      previewSecretId: `${string}.${string}`;
+    }
+  ): StructureResolver =>
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  (S) => {
     const singletonsListItems = // A singleton not using `documentListItem`, eg no built-in preview
       singletonTypeDefs.map((typeDef) =>
         S.listItem()
@@ -31,7 +33,7 @@ export const previewStructurePlugin = (
               .schemaType(typeDef.name)
               .documentId(typeDef.name)
           )
-      )
+      );
 
     const singletonPreviewListItems = // A singleton, but has a built-in preview of the page
       singletonPreviewTypeDefs.map((typeDef) =>
@@ -48,32 +50,31 @@ export const previewStructurePlugin = (
                 S.view
                   .component(() => (
                     <PagePreviewPane
-                      path={''}
                       apiVersion={apiVersion}
+                      path=""
                       previewSecretId={previewSecretId}
                     />
                   ))
-                  .title('Preview'),
+                  .title("Preview"),
               ])
           )
-      )
+      );
 
     const customListItemNames = singletonTypeDefs
       .map((item) => item.name)
-      .concat(singletonPreviewTypeDefs.map((item) => item.name))
+      .concat(singletonPreviewTypeDefs.map((item) => item.name));
 
     const defaultListItems = S.documentTypeListItems().filter((listItem) => {
-      const listItemId = listItem.getId()
-      return listItemId && !customListItemNames.includes(listItemId)
-    })
+      const listItemId = listItem.getId();
+      return listItemId && !customListItemNames.includes(listItemId);
+    });
 
     return S.list()
-      .title('Content')
+      .title("Content")
       .items([
         ...singletonsListItems,
         ...singletonPreviewListItems,
         S.divider(),
         ...defaultListItems,
-      ])
-  }
-}
+      ]);
+  };

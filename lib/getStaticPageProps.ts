@@ -1,41 +1,46 @@
-import { getIndexPage, getPage, getSettings } from 'lib/sanity.client'
-import { Page, Settings } from 'lib/sanity.queries'
-import { GetStaticProps } from 'next'
+import {
+  getAllRoutes,
+  getIndexPage,
+  getPage,
+  getSettings,
+} from "lib/sanity.client";
+import { Page, Settings } from "lib/sanity.queries";
+import { GetStaticProps } from "next";
 
 export interface PageProps {
-  path?: string
-  page: Page
-  settings: Settings
-  preview: boolean
-  token: string | null
+  path?: string;
+  page: Page;
+  routes: any;
+  settings: Settings;
+  preview: boolean;
+  token: string | null;
 }
 
-export interface Query {
-  [key: string]: string
-}
+export type Query = Record<string, string>;
 
 export interface PreviewData {
-  token?: string
+  token?: string;
 }
 
 export const getStaticPageProps =
   (path?: string): GetStaticProps<PageProps, Query, PreviewData> =>
   async (ctx) => {
-    const { preview = false, previewData = {}, params = {} } = ctx
-    const parsedPath = path || params?.path || ''
+    const { preview = false, previewData = {}, params = {} } = ctx;
+    const parsedPath = path || params.path || "";
 
-    const [settings, page] = await Promise.all([
+    const [settings, page, routes] = await Promise.all([
       getSettings(),
       parsedPath ? getPage(parsedPath) : getIndexPage(),
-    ])
-
+      getAllRoutes(),
+    ]);
     return {
       props: {
-        path: parsedPath ?? '',
+        path: parsedPath,
         page,
+        routes,
         settings,
         preview,
         token: previewData.token ?? null,
       },
-    }
-  }
+    };
+  };

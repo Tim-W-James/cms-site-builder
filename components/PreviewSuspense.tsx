@@ -1,1 +1,1 @@
-export { PreviewSuspense } from 'next-sanity/preview'
+export { PreviewSuspense } from "next-sanity/preview";

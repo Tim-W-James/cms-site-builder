@@ -1,46 +1,61 @@
-import { apiVersion, dataset, projectId, useCdn } from 'lib/sanity.api'
+import { apiVersion, dataset, projectId, useCdn } from "lib/sanity.api";
 import {
   indexQuery,
   Page,
   PageMeta,
   pagePathQuery,
   pageQuery,
+  Routes,
+  routesQuery,
   type Settings,
-  settingsQuery} from 'lib/sanity.queries'
-import { createClient } from 'next-sanity'
+  settingsQuery,
+} from "lib/sanity.queries";
+import { createClient } from "next-sanity";
 
 /**
  * Checks if it's safe to create a client instance, as `@sanity/client` will throw an error if `projectId` is false
  */
 const client = projectId
   ? createClient({ projectId, dataset, apiVersion, useCdn })
-  : null
+  : null;
 
-export async function getSettings(): Promise<Settings> {
+export const getSettings = async (): Promise<Settings> => {
   if (client) {
-    return (await client.fetch(settingsQuery)) || {}
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    return (await client.fetch(settingsQuery)) || {};
   }
-  return {}
-}
+  return {};
+};
 
-export async function getPage(pageName: string): Promise<Page> {
+export const getPage = async (pageName: string): Promise<Page> => {
   if (client) {
-    return (await client.fetch(pageQuery(pageName))) || {}
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    return (await client.fetch(pageQuery(pageName))) || {};
   }
-  return {}
-}
+  return {};
+};
 
-export async function getIndexPage(): Promise<Page> {
+export const getIndexPage = async (): Promise<Page> => {
   if (client) {
-    return (await client.fetch(indexQuery)) || {}
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    return (await client.fetch(indexQuery)) || {};
   }
-  return {}
-}
+  return {};
+};
 
-export async function getAllPagePaths(): Promise<Pick<PageMeta, 'path'>[]> {
+export const getAllPagePaths = async (): Promise<Pick<PageMeta, "path">[]> => {
   if (client) {
-    const paths = (await client.fetch<string[]>(pagePathQuery)) || []
-    return paths.map((path) => ({ path }))
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    const paths = (await client.fetch<string[]>(pagePathQuery)) || [];
+    return paths.map((path) => ({ path }));
   }
-  return []
-}
+  return [];
+};
+
+export const getAllRoutes = async (): Promise<Routes> => {
+  if (client) {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    return (await client.fetch(routesQuery)) || {};
+  }
+  return {};
+};

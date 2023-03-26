@@ -1,25 +1,26 @@
-import PageWrapper from 'components/PageWrapper'
+import PageWrapper from "components/PageWrapper";
 import {
   getStaticPageProps,
   PageProps,
   PreviewData,
   Query,
-} from 'lib/getStaticPageProps'
-import { getAllPagePaths } from 'lib/sanity.client'
-import { GetStaticProps } from 'next'
+} from "lib/getStaticPageProps";
+import { getAllPagePaths } from "lib/sanity.client";
+import { GetStaticProps } from "next";
 
-const Page = (props: PageProps) => <PageWrapper {...props} />
+const Page = (props: PageProps) => <PageWrapper {...props} />;
 
 export const getStaticProps: GetStaticProps<PageProps, Query, PreviewData> =
-  getStaticPageProps()
+  getStaticPageProps();
 
 export const getStaticPaths = async () => {
-  const paths = await getAllPagePaths()
+  const paths = await getAllPagePaths();
 
   return {
-    paths: paths?.map(({ path }) => `/${path}`) || [],
-    fallback: 'blocking',
-  }
-}
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    paths: paths.map(({ path }) => `/${path ?? ""}`) || [],
+    fallback: "blocking",
+  };
+};
 
-export default Page
+export default Page;

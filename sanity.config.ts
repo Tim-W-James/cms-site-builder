@@ -2,29 +2,34 @@
  * This config is used to set up Sanity Studio that's mounted on the `/pages/studio/[[...index]].tsx` route
  */
 
-import { visionTool } from '@sanity/vision'
-import { apiVersion, dataset, previewSecretId, projectId } from 'lib/sanity.api'
-import { previewDocumentNode } from 'plugins/previewPane'
-import { previewStructurePlugin } from 'plugins/previewStructure'
-import { productionUrl } from 'plugins/productionUrl'
-import { singletonPlugin } from 'plugins/singeton'
-import { defineConfig } from 'sanity'
-import { deskTool } from 'sanity/desk'
-import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash'
-import navType from 'schemas/nav'
-import pageType from 'schemas/page'
-import pageMetaType from 'schemas/pageMeta'
-import homePageType from 'schemas/pages/home'
-import pagesType from 'schemas/pages/pages'
-import settingsType from 'schemas/settings'
+import { visionTool } from "@sanity/vision";
+import {
+  apiVersion,
+  dataset,
+  previewSecretId,
+  projectId,
+} from "lib/sanity.api";
+import { previewDocumentNode } from "plugins/previewPane";
+import { previewStructurePlugin } from "plugins/previewStructure";
+import { productionUrl } from "plugins/productionUrl";
+import { singletonPlugin } from "plugins/singeton";
+import { defineConfig } from "sanity";
+import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
+import { deskTool } from "sanity/desk";
+import navType from "schemas/nav";
+import pageType from "schemas/page";
+import pageMetaType from "schemas/pageMeta";
+import homePageType from "schemas/pages/home";
+import pagesType from "schemas/pages/pages";
+import settingsType from "schemas/settings";
 
 const title =
-  process.env.NEXT_PUBLIC_SANITY_PROJECT_TITLE || 'Next.js Blog with Sanity.io'
+  process.env.NEXT_PUBLIC_SANITY_PROJECT_TITLE || "Website";
 
 export default defineConfig({
-  basePath: '/studio',
-  projectId: projectId ?? '',
-  dataset: dataset ?? '',
+  basePath: "/studio",
+  projectId: projectId ?? "",
+  dataset: dataset ?? "",
   title,
   schema: {
     // If you want more content types, you can add them to this array
@@ -66,4 +71,4 @@ export default defineConfig({
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({ defaultApiVersion: apiVersion }),
   ],
-})
+});

@@ -1,29 +1,34 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
-import Container from 'components/Container'
 
-export default function Alert({
+import clsx from "clsx";
+import { Container } from "react-bootstrap";
+
+const AlertBanner = ({
   preview,
   loading,
 }: {
-  preview?: boolean
-  loading?: boolean
-}) {
-  if (!preview) return null
+  preview?: boolean;
+  loading?: boolean;
+}) => {
+  if (!preview) {
+    return null;
+  }
 
   return (
-    <div className="border-b border-accent-7 bg-accent-7 text-white">
+    <div className="bg-dark border-bottom border-white text-white">
       <Container>
-        <div className="py-2 text-center text-sm">
-          {loading ? 'Loading... ' : 'This page is a preview. '}
+        <div className={clsx("py-2 text-center")}>
+          {loading ? "Loading... " : "This page is a preview. "}
           <a
-            href="/api/exit-preview"
             className="underline transition-colors duration-200 hover:text-cyan"
+            href="/api/exit-preview"
           >
             Click here
-          </a>{' '}
+          </a>{" "}
           to exit preview mode.
         </div>
       </Container>
     </div>
-  )
-}
+  );
+};
+export default AlertBanner;

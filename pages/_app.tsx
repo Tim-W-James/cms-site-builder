@@ -1,11 +1,9 @@
-import 'tailwindcss/tailwind.css'
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import { AppProps } from 'next/app'
+import { AppProps } from "next/app";
 
-export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <>
-      <Component {...pageProps} />
-    </>
-  )
-}
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const App = ({ Component, pageProps }: AppProps) => (
+  <Component {...pageProps} />
+);
+export default App;

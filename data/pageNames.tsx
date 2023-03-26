@@ -1,2 +1,2 @@
 export const pageNames = ["index", "resources", "about", "contact"] as const;
-export type PageName = typeof pageNames[number];
+export type PageName = (typeof pageNames)[number];

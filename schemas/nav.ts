@@ -1,58 +1,56 @@
-import { MasterDetailIcon } from '@sanity/icons'
-import { defineType } from 'sanity'
+import { MasterDetailIcon } from "@sanity/icons";
+import { defineType } from "sanity";
 
 export default defineType({
-  name: 'navigation',
-  title: 'Navigation',
+  name: "navigation",
+  title: "Navigation",
   icon: MasterDetailIcon,
-  type: 'document',
+  type: "document",
   preview: {
-    prepare: () => ({ title: 'Navigation' }),
+    prepare: () => ({ title: "Navigation" }),
   },
   fields: [
     {
-      name: 'items',
-      title: 'Menu Items',
-      type: 'array',
+      name: "items",
+      title: "Nav Items",
+      type: "array",
       of: [
         {
-          type: 'object',
-          name: 'menuItem',
+          type: "object",
+          name: "menuItem",
           fields: [
             {
-              name: 'title',
-              title: 'Title',
-              type: 'string',
-              validation: (Rule) => Rule.required(),
+              name: "title",
+              title: "Title",
+              type: "string",
+              validation: (rule) => rule.required(),
             },
             {
-              name: 'page',
-              title: 'Page',
-              type: 'reference',
-              to: [{ type: 'page' }],
-              validation: (Rule) => Rule.required(),
-            },
-            {
-              name: 'subItems',
-              title: 'Sub Items',
-              type: 'array',
+              name: "routes",
+              title: "Routes",
+              description:
+                "Pages for the nav item. Define multiple routes for a" +
+                " dropdown menu.",
+              type: "array",
               of: [
                 {
-                  type: 'object',
-                  name: 'subMenuItem',
+                  type: "object",
+                  name: "subMenuItem",
                   fields: [
                     {
-                      name: 'title',
-                      title: 'Title',
-                      type: 'string',
-                      validation: (Rule) => Rule.required(),
+                      name: "title",
+                      title: "Title",
+                      description:
+                        "If this is your only route, leave blank." +
+                        " Otherwise used for the dropdown menu.",
+                      type: "string",
                     },
                     {
-                      name: 'page',
-                      title: 'Page',
-                      type: 'reference',
-                      to: [{ type: 'page' }],
-                      validation: (Rule) => Rule.required(),
+                      name: "page",
+                      title: "Page",
+                      type: "reference",
+                      to: [{ type: "pages" }],
+                      validation: (rule) => rule.required(),
                     },
                   ],
                 },
@@ -63,4 +61,4 @@ export default defineType({
       ],
     },
   ],
-})
+});

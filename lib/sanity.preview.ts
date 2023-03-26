@@ -1,7 +1,7 @@
-import { dataset, projectId } from 'lib/sanity.api'
-import { definePreview } from 'next-sanity/preview'
+import { dataset, projectId } from "lib/sanity.api";
+import { definePreview } from "next-sanity/preview";
 
-let alerted = false
+let alerted = false;
 export const usePreview = definePreview({
   projectId: projectId ?? "",
   dataset: dataset ?? "",
@@ -10,8 +10,8 @@ export const usePreview = definePreview({
     // https://reactjs.org/docs/error-boundaries.html
     if (!alerted) {
       // eslint-disable-next-line no-alert
-      alert('You are not logged in. You will only see public data.')
-      alerted = true
+      alert("You are not logged in. You will only see public data.");
+      alerted = true;
     }
   },
 
@@ -30,4 +30,4 @@ export const usePreview = definePreview({
   // but should you hit a problem at scale you can adjust `subscriptionThrottleMs` to a higher value than the default `10` milliseconds.
   // Or if you're daring you could set it to `1` to have the lowest possible latency between edits and the live-preview.
   // subscriptionThrottleMs: 60,
-})
+});
