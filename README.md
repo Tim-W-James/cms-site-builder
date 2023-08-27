@@ -117,6 +117,8 @@
 - Unstyled Bootstrap starter that can be customised to display content from the
   CMS as desired
 
+Read [this](https://timjames.dev/blog/creating-a-site-builder-with-nextjs-and-sanity-cms-1e61) blog for a detailed guide.
+
 Find an example of this template being used on a project at
 <https://github.com/Tim-W-James/Journeys-Continue>.
 
